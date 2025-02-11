@@ -1,19 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import Navbar from './components/Navbar'
+import Card from './components/Card'
+import axios from "axios"
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([]);
+
+  useEffect(()=>{
+    fetchProducts();
+  },[])
+
+  const fetchProducts = async()=>{
+    try {
+      const products = await axios.get("http://localhost:5000/products/");
+      setProducts(products.data);
+    } catch (error) {
+      console.log(error.message)
+    }
+
+  }
 
   return (
-    <details className="dropdown">
-      <summary className="btn m-1">open or close</summary>
-      <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-        <li><a>Item 1</a></li>
-        <li><a>Item 2</a></li>
-      </ul>
-    </details>
+    <>
+      <Navbar fetchProducts={fetchProducts} />
+      <Card products = {products} setProducts= {setProducts} fetchProducts={fetchProducts} />
+    </>
   )
 }
 
