@@ -26,11 +26,11 @@ const Card = ({products, setProducts})=>{
   const handleUpdate = async(product_id)=>{
 
     const response = await axios.put(`http://localhost:5000/products/${product_id}`, productValues)
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
+    setProducts((prevProducts) => (
+      prevProducts.map((product) => (
         product.product_id === product_id ? response.data : product
-      )
-    );
+      ))
+    ))
     document.getElementById(`my_modal_${product_id}`).close();
     setProductValues({
       name:"",
@@ -39,6 +39,18 @@ const Card = ({products, setProducts})=>{
     })
     setSelectedProduct(null);
   }
+
+
+  const handleDelete = async(product_id)=>{
+    await axios.delete(`http://localhost:5000/products/${product_id}`)
+    setProducts((prevProducts)=>(
+      prevProducts.filter((product)=>(
+        product.product_id !== product_id
+      ))
+    ))
+  }
+
+  
 
 
   return(
@@ -68,6 +80,10 @@ const Card = ({products, setProducts})=>{
                   }}
                 >
                   Edit
+                </button>
+
+                <button className="btn btn-warning" onClick={()=> handleDelete(product.product_id)}>
+                  Delete
                 </button>
                 {selectedProduct && selectedProduct.product_id === product.product_id && (
 

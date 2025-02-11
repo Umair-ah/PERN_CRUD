@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-const Navbar = ({fetchProducts})=>{
+const Navbar = ({products, setProducts})=>{
 
 
   const [productValues, setProductValues] = useState({
@@ -11,8 +11,9 @@ const Navbar = ({fetchProducts})=>{
 
   const handleSubmit = async()=>{
     try {
-      await axios.post("http://localhost:5000/products/", productValues)
-      fetchProducts();
+      const response = await axios.post("http://localhost:5000/products/", productValues)
+
+      setProducts([...products, response.data])
       document.getElementById('my_modal_create').close()
       setProductValues({
         name:"",
@@ -23,6 +24,8 @@ const Navbar = ({fetchProducts})=>{
       console.error(error.message)      
     }
   }
+
+  
 
 
   return(

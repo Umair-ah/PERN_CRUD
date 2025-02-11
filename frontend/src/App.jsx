@@ -24,8 +24,8 @@ function App() {
 
   return (
     <>
-      <Navbar fetchProducts={fetchProducts} />
-      <Card products = {products} setProducts= {setProducts} fetchProducts={fetchProducts} />
+      <Navbar products={products} setProducts = {setProducts} />
+      <Card products = {products} setProducts= {setProducts} />
     </>
   )
 }
